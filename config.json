@@ -1,0 +1,101 @@
+{
+  "database": {
+    "path": "stress_test.db"
+  },
+  "testConfiguration": {
+    "concurrentWorkers": 8,
+    "testRecords": 1000000,
+    "transactionSize": 100
+  },
+  "insertPerformance": {
+    "singleInserts": 1000,
+    "batchSize": 1000,
+    "progressReportInterval": 100
+  },
+  "selectPerformance": {
+    "selectAllLimit": 1000,
+    "joinLimit": 100
+  },
+  "updatePerformance": {
+    "singleUpdates": 100,
+    "batchUpdates": 900,
+    "singleUpdateProgressInterval": 10,
+    "batchUpdateProgressInterval": 100
+  },
+  "deletePerformance": {
+    "testDataRecords": 1000,
+    "singleDeletes": 100,
+    "progressReportInterval": 10,
+    "batchProgressInterval": 100
+  },
+  "transactionPerformance": {
+    "transactionInserts": 5000,
+    "progressReportInterval": 500
+  },
+  "concurrency": {
+    "operationsPerWorker": 500,
+    "workerProgressInterval": 20
+  },
+  "dataGeneration": {
+    "usernames": [
+      "alice",
+      "bob",
+      "charlie",
+      "diana",
+      "eve",
+      "frank"
+    ],
+    "domains": [
+      "gmail.com",
+      "yahoo.com",
+      "outlook.com",
+      "test.com"
+    ],
+    "transactionTypes": [
+      "deposit",
+      "withdrawal",
+      "transfer",
+      "payment"
+    ],
+    "transactionDescriptions": [
+      "Salary payment",
+      "Grocery shopping",
+      "Rent payment",
+      "Investment",
+      "Refund"
+    ],
+    "logLevels": [
+      "INFO",
+      "WARNING",
+      "ERROR",
+      "DEBUG"
+    ],
+    "logMessages": [
+      "User login successful",
+      "Transaction processed",
+      "Database connection established",
+      "Cache cleared",
+      "Backup completed"
+    ],
+    "ageRange": {
+      "min": 18,
+      "max": 98
+    },
+    "salaryRange": {
+      "min": 0,
+      "max": 100000
+    },
+    "transactionAmountRange": {
+      "min": -1000,
+      "max": 1000
+    },
+    "userIdRange": {
+      "min": 1,
+      "max": 1000
+    }
+  },
+  "dataTypes": {
+    "largeTextSize": 10000,
+    "largeBlobSize": 50000
+  }
+}

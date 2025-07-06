@@ -1,0 +1,35 @@
+{
+  "name": "sqlite-stress-test",
+  "version": "1.0.0",
+  "description": "Comprehensive SQLite stress testing tool with performance metrics and concurrency testing",
+  "main": "sqlite_stress_test.js",
+  "scripts": {
+    "test": "node sqlite_stress_test.js",
+    "start": "node sqlite_stress_test.js",
+    "install-deps": "npm install sqlite3"
+  },
+  "keywords": [
+    "sqlite",
+    "stress-test",
+    "performance",
+    "database",
+    "benchmark",
+    "concurrency"
+  ],
+  "author": "SQLite Stress Test Generator",
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^5.1.6"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "local"
+  },
+  "bugs": {
+    "url": "local"
+  },
+  "homepage": "local"
+}
