@@ -3,9 +3,9 @@
     "path": "stress_test.db"
   },
   "testConfiguration": {
-    "concurrentWorkers": 8,
-    "testRecords": 1000000,
-    "transactionSize": 100
+    "concurrentWorkers": 4,
+    "testRecords": 100000,
+    "transactionSize": 200
   },
   "insertPerformance": {
     "singleInserts": 1000,
@@ -17,19 +17,19 @@
     "joinLimit": 100
   },
   "updatePerformance": {
-    "singleUpdates": 100,
+    "singleUpdates": 10000,
     "batchUpdates": 900,
     "singleUpdateProgressInterval": 10,
     "batchUpdateProgressInterval": 100
   },
   "deletePerformance": {
-    "testDataRecords": 1000,
+    "testDataRecords": 2000,
     "singleDeletes": 100,
     "progressReportInterval": 10,
     "batchProgressInterval": 100
   },
   "transactionPerformance": {
-    "transactionInserts": 5000,
+    "transactionInserts": 500,
     "progressReportInterval": 500
   },
   "concurrency": {

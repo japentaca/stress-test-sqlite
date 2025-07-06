@@ -681,6 +681,22 @@ doWork().catch(console.error);
     this.results.finalStatistics = statistics;
   }
 
+  formatTime(milliseconds) {
+    if (milliseconds == null || milliseconds === 'N/A') return 'N/A';
+
+    const ms = milliseconds % 1000;
+    const seconds = Math.floor(milliseconds / 1000) % 60;
+    const minutes = Math.floor(milliseconds / (1000 * 60));
+
+    if (minutes > 0) {
+      return `${minutes}m ${seconds}s ${ms}ms`;
+    } else if (seconds > 0) {
+      return `${seconds}s ${ms}ms`;
+    } else {
+      return `${ms}ms`;
+    }
+  }
+
   generateMarkdownReport() {
     console.log('📝 Generating markdown report...');
 
@@ -703,33 +719,38 @@ doWork().catch(console.error);
 
 ### INSERT Performance
 - **Total Records**: ${this.results.tests.insertPerformance?.totalRecords?.toLocaleString() || 'N/A'}
-- **Total Time**: ${this.results.tests.insertPerformance?.totalTime || 'N/A'}ms
+- **Total Time**: ${this.formatTime(this.results.tests.insertPerformance?.totalTime)}
+- **Single Insert Time**: ${this.formatTime(this.results.tests.insertPerformance?.singleInsertTime)}
+- **Batch Insert Time**: ${this.formatTime(this.results.tests.insertPerformance?.batchInsertTime)}
 - **Records/Second**: ${this.results.tests.insertPerformance?.recordsPerSecond?.toLocaleString() || 'N/A'}
 - **Single Insert Rate**: ${this.results.tests.insertPerformance?.singleInsertRate?.toLocaleString() || 'N/A'} records/sec
 - **Batch Insert Rate**: ${this.results.tests.insertPerformance?.batchInsertRate?.toLocaleString() || 'N/A'} records/sec
 
 ### SELECT Performance
 ${Object.entries(this.results.tests.selectPerformance || {}).map(([test, data]) =>
-      `- **${test}**: ${data.executionTime}ms (${data.rowsReturned} rows, ${data.ratePerSecond}/sec)`
+      `- **${test}**: ${this.formatTime(data.executionTime)} (${data.rowsReturned} rows, ${data.ratePerSecond}/sec)`
     ).join('\n')}
 
 ### UPDATE Performance
-- **Single Updates**: ${this.results.tests.updatePerformance?.singleUpdateTime || 'N/A'}ms
-- **Batch Updates**: ${this.results.tests.updatePerformance?.batchUpdateTime || 'N/A'}ms
-- **Bulk Update**: ${this.results.tests.updatePerformance?.bulkUpdateTime || 'N/A'}ms (${this.results.tests.updatePerformance?.bulkRowsAffected || 'N/A'} rows)
+- **Single Updates**: ${this.formatTime(this.results.tests.updatePerformance?.singleUpdateTime)}
+- **Batch Updates**: ${this.formatTime(this.results.tests.updatePerformance?.batchUpdateTime)}
+- **Bulk Update**: ${this.formatTime(this.results.tests.updatePerformance?.bulkUpdateTime)} (${this.results.tests.updatePerformance?.bulkRowsAffected || 'N/A'} rows)
+- **Total Time**: ${this.formatTime(this.results.tests.updatePerformance?.totalTime)}
 
 ### DELETE Performance
-- **Single Deletes**: ${this.results.tests.deletePerformance?.singleDeleteTime || 'N/A'}ms
-- **Bulk Delete**: ${this.results.tests.deletePerformance?.bulkDeleteTime || 'N/A'}ms (${this.results.tests.deletePerformance?.bulkRowsDeleted || 'N/A'} rows)
+- **Single Deletes**: ${this.formatTime(this.results.tests.deletePerformance?.singleDeleteTime)}
+- **Bulk Delete**: ${this.formatTime(this.results.tests.deletePerformance?.bulkDeleteTime)} (${this.results.tests.deletePerformance?.bulkRowsDeleted || 'N/A'} rows)
+- **Total Time**: ${this.formatTime(this.results.tests.deletePerformance?.totalTime)}
 
 ### TRANSACTION Performance
-- **Batch Insert**: ${this.results.tests.transactionPerformance?.batchInsertTime || 'N/A'}ms
-- **Rollback Test**: ${this.results.tests.transactionPerformance?.rollbackTime || 'N/A'}ms
+- **Batch Insert**: ${this.formatTime(this.results.tests.transactionPerformance?.batchInsertTime)}
+- **Rollback Test**: ${this.formatTime(this.results.tests.transactionPerformance?.rollbackTime)}
+- **Total Time**: ${this.formatTime(this.results.tests.transactionPerformance?.totalTime)}
 
 ### Data Types Support
 - **Types Tested**: ${this.results.tests.dataTypes?.totalTypes || 'N/A'}
 - **Verification**: ${this.results.tests.dataTypes?.verificationPassed ? '✅ PASSED' : '❌ FAILED'}
-- **Execution Time**: ${this.results.tests.dataTypes?.executionTime || 'N/A'}ms
+- **Execution Time**: ${this.formatTime(this.results.tests.dataTypes?.executionTime)}
 - **Supported Types**: ${this.results.tests.dataTypes?.types?.join(', ') || 'N/A'}
 
 ### Concurrency Test
@@ -738,11 +759,14 @@ ${Object.entries(this.results.tests.selectPerformance || {}).map(([test, data]) 
 - **Total Operations**: ${this.results.tests.concurrency?.totalOperations?.toLocaleString() || 'N/A'}
 - **Success Rate**: ${this.results.tests.concurrency?.successRate || 'N/A'}
 - **Operations/Second**: ${this.results.tests.concurrency?.operationsPerSecond?.toLocaleString() || 'N/A'}
+- **Average Execution Time**: ${this.formatTime(this.results.tests.concurrency?.avgExecutionTime)}
+- **Total Time**: ${this.formatTime(this.results.tests.concurrency?.totalTime)}
 - **Total Errors**: ${this.results.tests.concurrency?.totalErrors || 'N/A'}
 
 ### Maintenance Operations
-- **ANALYZE Time**: ${this.results.tests.maintenance?.analyzeTime || 'N/A'}ms
-- **VACUUM Time**: ${this.results.tests.maintenance?.vacuumTime || 'N/A'}ms
+- **ANALYZE Time**: ${this.formatTime(this.results.tests.maintenance?.analyzeTime)}
+- **VACUUM Time**: ${this.formatTime(this.results.tests.maintenance?.vacuumTime)}
+- **Total Time**: ${this.formatTime(this.results.tests.maintenance?.totalTime)}
 - **Size Before VACUUM**: ${this.results.tests.maintenance?.sizeBeforeVacuum ? (this.results.tests.maintenance.sizeBeforeVacuum / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}
 - **Size After VACUUM**: ${this.results.tests.maintenance?.sizeAfterVacuum ? (this.results.tests.maintenance.sizeAfterVacuum / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}
 - **Space Saved**: ${this.results.tests.maintenance?.spaceSaved ? (this.results.tests.maintenance.spaceSaved / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}
@@ -863,7 +887,7 @@ This SQLite stress test evaluated:
       // Show summary
       const overallTime = Date.now() - overallStart;
       console.log('📊 TEST SUMMARY:');
-      console.log(`   Total execution time: ${overallTime}ms`);
+      console.log(`   Total execution time: ${this.formatTime(overallTime)}`);
       console.log(`   Tests completed: ${Object.keys(this.results.tests).length}`);
       console.log(`   Final database size: ${this.results.finalStatistics?.databaseSize?.size ? (this.results.finalStatistics.databaseSize.size / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}`);
       console.log('   Report saved to: sqlite_stress_test_report.md\n');
